@@ -1,3 +1,5 @@
+import io
+import json
 from typing import List
 
 import numpy as np
@@ -52,3 +54,9 @@ class ArticleThemeTokenizer:
                 themes.append(self.tokenizer.index_word[idx + 1])
 
         return themes
+
+
+    def save(self, path: str):
+        tokenizer_json = self.tokenizer.to_json()
+        with io.open(path, 'w', encoding='utf-8') as f:
+            f.write(tokenizer_json)

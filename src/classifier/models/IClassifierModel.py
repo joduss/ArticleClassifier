@@ -4,7 +4,8 @@ from tensorflow.python.keras.models import Model
 
 from classifier.Data.TrainValidationDataset import TrainValidationDataset
 from data_models.weights.theme_weights import ThemeWeights
-
+import tensorflow as tf
+import os
 
 class IClassifierModel:
 
@@ -33,7 +34,9 @@ class IClassifierModel:
         return self._model
 
     def save_model(self, directory: str):
-        self._model.save(directory + self.get_model_name() + ".h5")
+        directory = os.path.join(directory, self.get_model_name())
+        tf.saved_model.save(self._model, directory)
+        # self._model.save(directory + self.get_model_name() + ".h5")
         #self.get_keras_model().save_weights(directory + self.get_model_name() + "_weight.h5")
 
     def load_model(self, directory: str):

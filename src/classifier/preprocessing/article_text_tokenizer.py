@@ -1,3 +1,5 @@
+import io
+import json
 from typing import Any, List, Optional
 
 from keras_preprocessing.text import Tokenizer
@@ -39,3 +41,8 @@ class ArticleTextTokenizer:
                                                             padding='post',
                                                             maxlen=self.max_article_length)
         return vector
+
+    def save(self, path: str):
+        tokenizer_json = self.tokenizer.to_json()
+        with io.open(path, 'w', encoding='utf-8') as f:
+            f.write(tokenizer_json)

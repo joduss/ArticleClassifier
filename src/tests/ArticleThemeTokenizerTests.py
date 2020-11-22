@@ -19,3 +19,15 @@ class ArticleThemeTokenizerTests(unittest.TestCase):
         self.assertEqual(["theme1", "theme4"], tokenizer.boolean_vector_to_themes([True, False, False, True]))
         self.assertEqual([], tokenizer.boolean_vector_to_themes([False, False, False, False]))
         self.assertEqual(["theme3"], tokenizer.boolean_vector_to_themes([False, False, True, False]))
+
+
+    def test_save(self):
+        article1 = Article("1", "title", "summary", ["theme1", "theme2", "theme3"], [], [])
+        article2 = Article("2", "title", "summary", ["theme1", "theme4"], [], [])
+        articles = Articles([article1, article2])
+        tokenizer = ArticleThemeTokenizer(articles)
+
+        tokenizer.save("test.json")
+        with open("test.json", "r") as file:
+            content = file.readlines()
+            print("f")

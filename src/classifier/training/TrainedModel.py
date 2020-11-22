@@ -18,6 +18,9 @@ class TrainedModel:
 
     def save(self, directory: str):
         self.model.save_model(directory)
+        self.article_tokenizer.save(f"{directory}{self.model.get_model_name()}-article-tokenizer.json")
+        self.theme_tokenizer.save(f"{directory}{self.model.get_model_name()}-theme_tokenizer.json")
+
 
     def load(self, directory: str):
         self.model.load_model(directory)
