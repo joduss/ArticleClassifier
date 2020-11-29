@@ -45,7 +45,7 @@ class Articles(object, metaclass=MetaArticles):
         with open(path, "r", encoding="utf-8") as file:
             try:
                 return Articles.load_articles(file, limit)
-            except:
+            except Exception as e:
                 time.sleep(5)
                 return Articles.load_articles(file, limit)
 
@@ -202,13 +202,19 @@ class Articles(object, metaclass=MetaArticles):
 
 
     def __sub__(self, other):
+        """
+        Removes from this instance all the articles present in 'other'
+        :rtype: Articles
+        """
         if not isinstance(other, Articles):
             raise Exception("Must be type Articles")
 
         # just for typing
         other_articles: Articles = other
 
-        filtered = [article for article in self.items if not other_articles.contains(article.id)]
+        ids: set = set([article.id for article in other_articles])
+
+        filtered = [article for article in self.items if article.id not in ids]
         return Articles(filtered)
 
 
