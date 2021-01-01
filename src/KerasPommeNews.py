@@ -1,26 +1,20 @@
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 import logging
-from logging import getLogger
-from typing import List
 
-from classifier.evaluation.F1AUC.F1AUCModelEvaluator import F1AUCModelEvaluator
-from classifier.evaluation.F1AUC.ThemeMetricF1AUCAggregator import ThemeMetricF1AUCAggregator
-from classifier.models.ClassifierModel4 import ClassifierModel4
-from classifier.models.ClassifierModel5 import ClassifierModel5
-from classifier.prediction.article_predictor import ArticlePredictor
-from classifier.models.ClassifierModel2 import ClassifierModel2
-from classifier.models.IClassifierModel import IClassifierModel
-from classifier.preprocessing.article_preprocessor_swift import ArticlePreprocessorSwift
-from classifier.training.TrainedModel import TrainedModel
-from classifier.training.Trainer import Trainer
-from data_models.articles import Articles
+############################################
+# App configuration
+############################################
 
-print("\n\n\n####################################\n####################################")
+logging.basicConfig(level=logging.INFO,
+                    format='%(levelname)-8s %(module)-10s:  %(message)s',
+                    datefmt='%m-%d %H:%M')
+debugLogger = logging.getLogger()
 
 ############################################
 # Configuration
 ############################################
+from typing import List
+from classifier.preprocessing.article_preprocessor_swift import ArticlePreprocessorSwift
+
 
 # DATA CONFIGURATION
 # ------------------
@@ -30,10 +24,7 @@ LANG = "fr"
 LANG_FULL = "french"
 
 OUTPUT_DIR = "output/"
-
-# supportedThemes: List[str] = ["android", "ios", "windows", "macos", "otherOS"]
-# SUPPORTED_THEMES: List[str] = ["smartphone", "computer", "tablet"]
-SUPPORTED_THEMES: List[str] = ["iphone"]
+SUPPORTED_THEMES: List[str] = ["ipad"]
 
 # MACHINE LEARNING CONFIGURATION
 # ------------------------------
@@ -51,18 +42,23 @@ LIMIT_ARTICLES_PREDICTION = None  # None or a number
 
 DO_COMPARISONS = False
 
-############################################
-# App initialization
-############################################
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(levelname)-8s %(module)-10s:  %(message)s',
-                    datefmt='%m-%d %H:%M')
-debugLogger = getLogger()
-debugLogger.info("info")
-debugLogger.warning("warning")
-debugLogger.debug("debug")
-
 TEST_RATIO = 1 - VALIDATION_RATIO - TRAIN_RATIO
+
+
+from classifier.evaluation.F1AUC.F1AUCModelEvaluator import F1AUCModelEvaluator
+from classifier.evaluation.F1AUC.ThemeMetricF1AUCAggregator import ThemeMetricF1AUCAggregator
+from classifier.models.ClassifierModel4 import ClassifierModel4
+from classifier.models.ClassifierModel5 import ClassifierModel5
+from classifier.models.iphone_classifier_model import IPhoneClassifierModel
+from classifier.prediction.article_predictor import ArticlePredictor
+from classifier.models.ClassifierModel2 import ClassifierModel2
+from classifier.models.IClassifierModel import IClassifierModel
+from classifier.training.Trainer import Trainer
+from data_models.articles import Articles
+
+print("\n\n\n####################################\n####################################")
+
+
 
 ############################################
 # Data loading
@@ -147,6 +143,7 @@ theme_metric = ThemeMetricF1AUCAggregator(themes=SUPPORTED_THEMES,
 
 #classifierModel: IClassifierModel = ClassifierModel3()
 classifierModel: IClassifierModel = ClassifierModel5(OUTPUT_DIR)
+#classifierModel: IClassifierModel = IPhoneClassifierModel(OUTPUT_DIR)
 
 trainer: Trainer = Trainer(preprocessor=PREPROCESSOR,
                            articles=articles_train,

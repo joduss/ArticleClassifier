@@ -1,14 +1,12 @@
 import logging
 from typing import List
 
-from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
-import Plot
+
 from classifier.evaluation.F1AUC.F1AUCModelEvaluator import F1AUCModelEvaluator
 from classifier.evaluation.F1AUC.ThemeMetricF1AUCList import ThemeMetricF1AUCList
 from classifier.evaluation.abstracts.ThemeMetricAggregator import ThemeMetricAggregator
-from classifier.evaluation.abstracts.ModelEvaluator import ModelEvaluator
 from classifier.prediction.articles_prediction import ArticlesPrediction
 from classifier.preprocessing.article_theme_tokenizer import ArticleThemeTokenizer
 
