@@ -1,7 +1,7 @@
 from typing import List
 
 from classifier.evaluation.F1AUC.F1AUCModelEvaluator import F1AUCModelEvaluator
-from classifier.prediction.losses.weightedBinaryCrossEntropy import WeightedBinaryCrossEntropy
+from classifier.prediction.losses.weighted_binary_cross_entropy import WeightedBinaryCrossEntropy
 from data_models.articles import Articles
 from tensorflow.keras.models import load_model
 

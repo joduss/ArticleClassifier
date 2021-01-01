@@ -4,7 +4,7 @@ from typing import Dict, List
 from classifier.evaluation.F1AUC.MetricF1AUC import MetricF1AUC
 from classifier.evaluation.abstracts.ModelEvaluator import ModelEvaluator
 from classifier.evaluation.metrics.AUC import AUC
-from classifier.prediction.ArticlesPrediction import ArticlesPrediction
+from classifier.prediction.articles_prediction import ArticlesPrediction
 from classifier.preprocessing.article_theme_tokenizer import ArticleThemeTokenizer
 
 

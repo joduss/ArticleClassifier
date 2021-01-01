@@ -9,7 +9,7 @@ from tensorflow.python.keras.layers import Dropout
 from classifier.Data.TrainValidationDataset import TrainValidationDataset
 from classifier.models.IClassifierModel import IClassifierModel
 from classifier.models.utility.ManualInterrupter import ManualInterrupter
-from classifier.prediction.losses.weightedBinaryCrossEntropy import WeightedBinaryCrossEntropy
+from classifier.prediction.losses.weighted_binary_cross_entropy import WeightedBinaryCrossEntropy
 from data_models.weights.theme_weights import ThemeWeights
 
 

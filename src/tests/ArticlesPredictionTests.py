@@ -1,6 +1,6 @@
 import unittest
 
-from classifier.prediction.ArticlesPrediction import ArticlesPrediction
+from classifier.prediction.articles_prediction import ArticlesPrediction
 from classifier.preprocessing.article_theme_tokenizer import ArticleThemeTokenizer
 from data_models.article import Article
 from data_models.articles import Articles

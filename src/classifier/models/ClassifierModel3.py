@@ -9,7 +9,7 @@ from tensorflow.python.keras.callbacks import LambdaCallback
 from tensorflow.python.keras.models import Model
 
 from classifier.Data.TrainValidationDataset import TrainValidationDataset
-from classifier.prediction.losses.weightedBinaryCrossEntropy import WeightedBinaryCrossEntropy
+from classifier.prediction.losses.weighted_binary_cross_entropy import WeightedBinaryCrossEntropy
 from classifier.models.IClassifierModel import IClassifierModel
 from classifier.models.utility.ManualInterrupter import ManualInterrupter
 

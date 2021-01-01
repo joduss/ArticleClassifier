@@ -1,20 +1,17 @@
 import tensorflow as tf
-from tensorflow import keras
+import tensorflow.keras as keras
+from tensorflow.keras.metrics import AUC, BinaryAccuracy, FalseNegatives, FalsePositives, Precision, Recall, \
+    TrueNegatives, TruePositives
 from tensorflow.python.keras.callbacks import LambdaCallback
-from tensorflow.python.keras.metrics import AUC, BinaryAccuracy, FalseNegatives, FalsePositives, Precision, Recall, \
-    TrueNegatives, \
-    TruePositives
+from tensorflow.python.keras.layers import Dropout
 from tensorflow.python.keras.regularizers import l2
-from tensorflow.python.layers.core import Dropout
 
 from classifier.Data.TrainValidationDataset import TrainValidationDataset
 from classifier.models.IClassifierModel import IClassifierModel
 from classifier.models.utility.ManualInterrupter import ManualInterrupter
-from classifier.prediction.losses.weightedBinaryCrossEntropy import WeightedBinaryCrossEntropy
 from data_models.weights.theme_weights import ThemeWeights
 
-
-class iPhoneClassifierModel(IClassifierModel):
+class IPhoneClassifierModel(IClassifierModel):
     """
     Note: Batch Size 128 is ok.
     """
@@ -95,8 +92,6 @@ class iPhoneClassifierModel(IClassifierModel):
         layer = keras.layers.Concatenate()([conv1, conv2, conv3, conv4])
         layer = keras.layers.Dense(16, activation=tf.nn.relu, kernel_regularizer=l2(l=conv_reg))(layer)
         layer = keras.layers.Dropout(dropout_dense)(layer)
-        # layer = keras.layers.Dense(64, activation=tf.nn.relu, kernel_regularizer=l2(l=conv_reg))(layer)
-        # layer = keras.layers.Dropout(dropout_dense)(layer)
 
         layer = keras.layers.Dense(theme_count, activation=tf.nn.sigmoid, kernel_regularizer=l2(l=dense_reg))(layer)
 
@@ -104,7 +99,7 @@ class iPhoneClassifierModel(IClassifierModel):
 
 
         model.compile(optimizer=tf.keras.optimizers.Adam(clipnorm=1, learning_rate=0.00009),
-                      loss=WeightedBinaryCrossEntropy(themes_weight.weight_array()),
+                      loss=keras.losses.BinaryCrossentropy(),
                       metrics=[AUC(multi_label=True), BinaryAccuracy(), TruePositives(),
                          TrueNegatives(), FalseNegatives(), FalsePositives(),
                          Recall(), Precision()],
@@ -121,12 +116,16 @@ class iPhoneClassifierModel(IClassifierModel):
 
         callbacks = [ManualInterrupter(), keras_callback]
 
+        themes_weight_array = themes_weight.weight_array()[0]
+        class_weight = {0 : themes_weight_array[0], 1: themes_weight_array[1]}
+
         model.fit(dataset.trainData,
                   epochs=self.epochs,
                   steps_per_epoch=dataset.train_batch_count,
                   validation_data=dataset.validationData,
                   validation_steps=dataset.validation_batch_count,
                   callbacks=callbacks,
+                  class_weight=class_weight
                   )
 
 

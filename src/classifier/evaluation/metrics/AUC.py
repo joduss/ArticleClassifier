@@ -1,6 +1,6 @@
 from sklearn import metrics
 
-from classifier.prediction.ArticlesPrediction import ArticlesPrediction
+from classifier.prediction.articles_prediction import ArticlesPrediction
 
 
 class AUC:

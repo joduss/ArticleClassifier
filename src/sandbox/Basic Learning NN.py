@@ -5,7 +5,7 @@ import tensorflow.keras as keras
 # rule out2: si in2 >= 20 => 1
 from tensorflow.python.keras.losses import BinaryCrossentropy
 
-from classifier.prediction.losses.weightedBinaryCrossEntropy import WeightedBinaryCrossEntropy
+from classifier.prediction.losses.weighted_binary_cross_entropy import WeightedBinaryCrossEntropy
 
 # data_in = [[0, 6], [11, 6], [1, 1], [9, 0], [20, 20], [20, 22], [0, 19], [5, 17], [10, 9], [18, 3],
 #            [11, 19], [11, 21], [9,19], [9,21], [15,15], [18,22], [22,18], [3,3], [8,18], [0, 0]]

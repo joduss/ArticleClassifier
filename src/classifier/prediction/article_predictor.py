@@ -4,7 +4,7 @@ from typing import List
 import tensorflow as tf
 import tensorflow.keras
 
-from classifier.prediction.ArticlesPrediction import ArticlesPrediction
+from classifier.prediction.articles_prediction import ArticlesPrediction
 from classifier.preprocessing.article_text_tokenizer import ArticleTextTokenizer
 from classifier.preprocessing.article_theme_tokenizer import ArticleThemeTokenizer
 from classifier.preprocessing.interface_article_preprocessor import IArticlePreprocessor

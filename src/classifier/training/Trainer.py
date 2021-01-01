@@ -6,7 +6,7 @@ from tensorflow.python.keras.callbacks import LambdaCallback
 
 from classifier.Data.TrainValidationDataset import TrainValidationDataset
 from classifier.evaluation.abstracts.ThemeMetricAggregator import ThemeMetricAggregator
-from classifier.prediction.ArticlesPrediction import ArticlesPrediction
+from classifier.prediction.articles_prediction import ArticlesPrediction
 from classifier.prediction.article_predictor import ArticlePredictor
 from classifier.models.IClassifierModel import IClassifierModel
 from classifier.preprocessing.article_text_tokenizer import ArticleTextTokenizer
