@@ -3,9 +3,10 @@ from tensorflow.python.keras.callbacks import LambdaCallback
 from tensorflow.python.keras.models import Model
 
 from classifier.Data.TrainValidationDataset import TrainValidationDataset
+from classifier.prediction.losses.weightedBinaryCrossEntropy import WeightedBinaryCrossEntropy
 from data_models.weights.theme_weights import ThemeWeights
-import tensorflow as tf
 import os
+import coremltools as ct
 
 class IClassifierModel:
 
@@ -34,14 +35,12 @@ class IClassifierModel:
         return self._model
 
     def save_model(self, directory: str):
-        directory = os.path.join(directory, self.get_model_name())
-        tf.saved_model.save(self._model, directory)
-        # self._model.save(directory + self.get_model_name() + ".h5")
-        #self.get_keras_model().save_weights(directory + self.get_model_name() + "_weight.h5")
+        self._model.save(os.path.join(directory, self.get_model_name()), overwrite=True) # will be a directory
+        # convert to Core ML and check predictions
+        mlmodel = ct.convert(self._model)
 
     def load_model(self, directory: str):
-        self._model = keras.models.load_model(directory + self.get_model_name() + ".h5")
-        # model.load_weights(directory + self.get_model_name() + "_weight.h5")
+        self._model = keras.models.load_model(directory + self.get_model_name(), custom_objects= {"WeightedBinaryCrossEntropy" : WeightedBinaryCrossEntropy})
 
     def plot_model(self, directory: str):
         """
