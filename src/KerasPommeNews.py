@@ -25,14 +25,14 @@ LANG = "fr"
 LANG_FULL = "french"
 
 OUTPUT_DIR = "output/"
-SUPPORTED_THEMES: List[str] = ["ipad"]
+SUPPORTED_THEME: str = "ipad"
 
 # MACHINE LEARNING CONFIGURATION
 # ------------------------------
 
 PREPROCESSOR = ArticlePreprocessorSwift()
 DATASET_BATCH_SIZE = 128
-ARTICLE_MAX_WORD_COUNT = 150
+ARTICLE_MAX_WORD_COUNT = 300
 TRAIN_RATIO = 0.7
 VALIDATION_RATIO = 0.1  # TEST is 1 - TRAIN_RATIO - VALIDATION_RATIO
 VOCABULARY_MAX_SIZE = 50000  # not used for now!
@@ -86,16 +86,16 @@ for article in all_articles:
 # Data filtering and partitionning
 # ============================
 
-articles_train: Articles = all_articles.articles_with_all_verified_themes(SUPPORTED_THEMES).deep_copy()
+articles_train: Articles = all_articles.articles_with_all_verified_themes([SUPPORTED_THEME]).deep_copy()
 
 # Removal of all unsupported themes and keep only data_models who have at least one supported theme.
 # -----------
 debugLogger.info("Filtering and spliting data for testing and training.")
 
 for article in articles_train.items:
-    article.themes = [value for value in article.themes if value in SUPPORTED_THEMES]
-    article.verified_themes = [value for value in article.verified_themes if value in SUPPORTED_THEMES]
-    article.predicted_themes = [value for value in article.predicted_themes if value in SUPPORTED_THEMES]
+    article.themes = [value for value in article.themes if value == SUPPORTED_THEME]
+    article.verified_themes = [value for value in article.verified_themes if value == SUPPORTED_THEME]
+    article.predicted_themes = [value for value in article.predicted_themes if value == SUPPORTED_THEME]
 
 debugLogger.info(
     "Removed %d data_models over %d without any supported themes. Left %d",
@@ -106,7 +106,7 @@ debugLogger.info(
 
 # Split the article between training and test (train -> training + validation)
 articles_train = articles_train.subset_ratio(TRAIN_RATIO)
-articles_test = (all_articles - articles_train).articles_with_any_verified_themes(SUPPORTED_THEMES)
+articles_test = (all_articles - articles_train).articles_with_any_verified_themes([SUPPORTED_THEME])
 
 articles_train_positive: int = articles_train.articles_with_theme(SUPPORTED_THEME).count()
 articles_test_positive: int = articles_test.articles_with_theme(SUPPORTED_THEME).count()
@@ -141,7 +141,7 @@ debugLogger.info("-------------------------")
 
 
 # do_ theme_weight for each theme!
-theme_metric = ThemeMetricF1AUCAggregator(themes=SUPPORTED_THEMES,
+theme_metric = ThemeMetricF1AUCAggregator(themes=[SUPPORTED_THEME],
                                           evaluator=F1AUCModelEvaluator())
 
 
@@ -152,7 +152,7 @@ classifierModel: IClassifierModel = ClassifierModel5(OUTPUT_DIR)
 trainer: Trainer = Trainer(preprocessor=PREPROCESSOR,
                            articles=articles_train,
                            max_article_length=ARTICLE_MAX_WORD_COUNT,
-                           supported_themes=SUPPORTED_THEMES,
+                           supported_themes=[SUPPORTED_THEME],
                            theme_metrics=[theme_metric],
                            model=classifierModel)
 trainer.batch_size = DATASET_BATCH_SIZE
@@ -168,7 +168,7 @@ trained_model.save(OUTPUT_DIR)
 ################################################################################################
 
 predictor = ArticlePredictor(trained_model.model.get_keras_model(),
-                             SUPPORTED_THEMES,
+                             [SUPPORTED_THEME],
                              PREPROCESSOR,
                              trained_model.article_tokenizer,
                              trained_model.theme_tokenizer)
@@ -186,7 +186,7 @@ evaluator = F1AUCModelEvaluator(trained_model.theme_tokenizer, print_stats=True)
 
 evaluator.evaluate(
     test_predictions,
-    SUPPORTED_THEMES
+    [SUPPORTED_THEME]
 )
 
 # Prediction for all articles
