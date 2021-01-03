@@ -14,6 +14,8 @@ from data_models.articles import Articles
 
 class ArticlePreprocessorSwift(IArticlePreprocessor):
 
+    logger = getLogger("PN")
+
     failed_attemps = 0
 
     """
@@ -51,7 +53,7 @@ class ArticlePreprocessorSwift(IArticlePreprocessor):
         os.close(output_file)
 
         articles.save(input_path)
-        getLogger().info(f"Articles about to be processed available at {input_path}.")
+        self.logger.info(f"Articles about to be processed available at {input_path}.")
 
         command_directory = os.path.dirname(os.path.abspath(__file__))
         command_path = f"{command_directory}/ArticlePreprocessorTool"
@@ -66,9 +68,9 @@ class ArticlePreprocessorSwift(IArticlePreprocessor):
                     print(output.strip(), end="\r")
 
         print("", end="\r")
-        getLogger().info("Finished processing %d articles.", articles.count())
+        self.logger.info("Finished processing %d articles.", articles.count())
 
-        getLogger().info(f"Preprocessed articles available at {output_path}.")
+        self.logger.info(f"Preprocessed articles available at {output_path}.")
 
 
         try:
@@ -76,7 +78,7 @@ class ArticlePreprocessorSwift(IArticlePreprocessor):
             self.failed_attemps = 0
             return processed_articles
         except JSONDecodeError:
-            getLogger().error(f"Failed to read the processed articles.... trying again (attemp {self.failed_attemps})")
+            self.logger.error(f"Failed to read the processed articles.... trying again (attemp {self.failed_attemps})")
             self.failed_attemps += 1
             if self.failed_attemps > 5:
                 raise

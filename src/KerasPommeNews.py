@@ -4,10 +4,11 @@ import logging
 # App configuration
 ############################################
 
-logging.basicConfig(level=logging.INFO,
+logging.basicConfig(level=logging.ERROR,
                     format='%(levelname)-8s %(module)-10s:  %(message)s',
                     datefmt='%m-%d %H:%M')
-debugLogger = logging.getLogger()
+debugLogger = logging.getLogger("PN")
+debugLogger.setLevel(logging.INFO)
 
 ############################################
 # Configuration
@@ -56,7 +57,7 @@ from classifier.models.IClassifierModel import IClassifierModel
 from classifier.training.Trainer import Trainer
 from data_models.articles import Articles
 
-print("\n\n\n####################################\n####################################")
+debugLogger.info("\n\n\n####################################\n####################################")
 
 
 
@@ -107,8 +108,11 @@ debugLogger.info(
 articles_train = articles_train.subset_ratio(TRAIN_RATIO)
 articles_test = (all_articles - articles_train).articles_with_any_verified_themes(SUPPORTED_THEMES)
 
-debugLogger.info("Train data: %d records", articles_train.count())
-debugLogger.info("Test data: %d records", articles_test.count())
+articles_train_positive: int = articles_train.articles_with_theme(SUPPORTED_THEME).count()
+articles_test_positive: int = articles_test.articles_with_theme(SUPPORTED_THEME).count()
+
+debugLogger.info("Train data: %d records (%d of theme = %f)", articles_train.count(), articles_train_positive, articles_train_positive / articles_train.count())
+debugLogger.info("Test data: %d records (%d of theme = %f)", articles_test.count(), articles_test_positive, articles_test_positive / articles_test.count())
 
 
 ################################################################################################
@@ -168,6 +172,8 @@ predictor = ArticlePredictor(trained_model.model.get_keras_model(),
                              PREPROCESSOR,
                              trained_model.article_tokenizer,
                              trained_model.theme_tokenizer)
+predictor.logger = logging.getLogger("PN-predictor")
+predictor.logger.setLevel(logging.ERROR)
 
 
 # Evaluation of the model with test dataset
@@ -185,6 +191,7 @@ evaluator.evaluate(
 
 # Prediction for all articles
 # ============================
+predictor.logger.setLevel(logging.ERROR)
 
 articles_to_predict = all_articles
 

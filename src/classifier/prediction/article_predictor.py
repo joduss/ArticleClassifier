@@ -2,7 +2,6 @@ from logging import getLogger
 from typing import List
 
 import tensorflow as tf
-import tensorflow.keras
 
 from classifier.prediction.articles_prediction import ArticlesPrediction
 from classifier.preprocessing.article_text_tokenizer import ArticleTextTokenizer
@@ -18,7 +17,7 @@ class ArticlePredictor:
     """
 
     CLASSIFIER_THRESHOLD: float = 0.5
-    logger = getLogger()
+    logger = getLogger("PN")
 
     def __init__(self,
                  classifier_model: tf.keras.models.Model,
@@ -53,23 +52,6 @@ class ArticlePredictor:
             predictions.addPredictionsForArticle(prediction_vector, article_id)
 
             idx += 1
-
-        # processed_articles = {article.id : article for article in self.preprocessor.process_articles(articles_original)}
-        #
-        # num_article_json = len(processed_articles)
-        # num_processed_article = 0
-        #
-        # predictions = ArticlesPrediction(self.theme_tokenizer, articles_original)
-        # article_orig: Article
-
-        # for article_orig in articles_original:
-        #     article_processed = processed_articles[article_orig.id]
-        #     prediction = self.__predict_article(article_processed, self.supported_themes)
-        #     predictions.add(article_orig, prediction)
-        #     num_processed_article += 1
-        #
-        #     if num_processed_article % 10 == 0:
-        #         print("Progress: " + str(num_processed_article) + "/" + str(num_article_json), end='\r')
 
         self.logger.info("Finished predicting themes for %d articles", articles_original.count())
         return predictions

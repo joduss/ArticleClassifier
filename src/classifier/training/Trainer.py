@@ -19,6 +19,9 @@ from data_models.weights.theme_weights import ThemeWeights
 
 
 class Trainer(LambdaCallback):
+
+    logger = getLogger("PN")
+
     __supported_themes: List[str]
 
     __preprocessor: IArticlePreprocessor
@@ -68,16 +71,16 @@ class Trainer(LambdaCallback):
         Trained the given model with data passed in the constructor.
         :param model:
         """
-        getLogger("\n\n---------------------\n")
+        self.logger.info("\n\n---------------------\n")
         getLogger("Prepare to train the model.\n")
         if self.__trained:
             raise Exception("Multiple training is not supported.")
 
-        getLogger().info("Data input:")
-        getLogger().info("* Number of articles: %d", len(self.__article_tokenizer.sequences))
-        getLogger().info("* Size of vocabulary: %d", self.__article_tokenizer.voc_size)
-        getLogger().info("* Number of themes: %d", self.__theme_tokenizer.themes_count)
-        getLogger().info("\n")
+        self.logger.info("Data input:")
+        self.logger.info("* Number of articles: %d", len(self.__article_tokenizer.sequences))
+        self.logger.info("* Size of vocabulary: %d", self.__article_tokenizer.voc_size)
+        self.logger.info("* Number of themes: %d", self.__theme_tokenizer.themes_count)
+        self.logger.info("\n")
 
         theme_weights = ThemeWeights(self.__theme_stats, self.__theme_tokenizer)
 
@@ -89,9 +92,9 @@ class Trainer(LambdaCallback):
             batch_size=self.batch_size
         )
 
-        getLogger().info("Parameters:")
-        getLogger().info("Batch size: %d", self.batch_size)
-        getLogger().info("validation ratio: %d", self.validation_ratio)
+        self.logger.info("Parameters:")
+        self.logger.info("Batch size: %d", self.batch_size)
+        self.logger.info("validation ratio: %d", self.validation_ratio)
 
         self.__model__.train_model(theme_weights, self.__dataset__, self.__article_tokenizer.voc_size, self)
 
@@ -105,12 +108,12 @@ class Trainer(LambdaCallback):
 
 
     def __process_articles(self, articles: Articles) -> Articles:
-        getLogger().info("Preprocessing training articles.")
+        self.logger.info("Preprocessing training articles.")
         return self.__preprocessor.process_articles(articles)
 
 
     def __tokenize_articles(self):
-        getLogger().info("Tokenizing training articles.")
+        self.logger.info("Tokenizing training articles.")
         self.__article_tokenizer = ArticleTextTokenizer(self.__processed_articles, self.__max_article_length)
         self.__theme_tokenizer = ArticleThemeTokenizer(self.__processed_articles)
 
@@ -119,14 +122,14 @@ class Trainer(LambdaCallback):
 
 
     def __data_analysis(self):
-        getLogger().info("\nBasic Data Analysis")
-        getLogger().info("-------------")
+        self.logger.info("\nBasic Data Analysis")
+        self.logger.info("-------------")
 
         for theme in self.__supported_themes:
             article_with_theme = self.__processed_articles.articles_with_theme(theme).items
             stat = ThemeStat(theme, len(article_with_theme), self.__processed_articles.count())
             self.__theme_stats.append(stat)
-            getLogger().info("'{}' {} / {} => Weights: (Positive: {}, : Negative: {})".format(theme, stat.article_of_theme_count, stat.total_article_count, stat.binary_weight_pos(), stat.binary_weight_neg()))
+            self.logger.info("'{}' {} / {} => Weights: (Positive: {}, : Negative: {})".format(theme, stat.article_of_theme_count, stat.total_article_count, stat.binary_weight_pos(), stat.binary_weight_neg()))
 
 
     def on_epoch_end(self, epoch, logs=None):
@@ -137,8 +140,6 @@ class Trainer(LambdaCallback):
                                      self.__preprocessor,
                                      self.__article_tokenizer,
                                      self.__theme_tokenizer)
-        predictor.logger = getLogger("pouf")
-        predictor.logger.setLevel(logging.CRITICAL)
 
         predictions_validation: ArticlesPrediction = predictor.predict_preprocessed(self.__dataset__.articles_validation)
         predictions_train: ArticlesPrediction = predictor.predict_preprocessed(self.__dataset__.articles_train)
