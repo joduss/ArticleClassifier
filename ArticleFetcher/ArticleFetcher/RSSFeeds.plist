@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>name</key>
+		<string>Mac Bidouille</string>
+		<key>id</key>
+		<string>macbidouille</string>
+		<key>url</key>
+		<string>http://macbidouille.com/rss</string>
+		<key>language</key>
+		<string>fr</string>
+	</dict>
+	<dict>
+		<key>language</key>
+		<string>fr</string>
+		<key>name</key>
+		<string>Consomac</string>
+		<key>id</key>
+		<string>consomac</string>
+		<key>url</key>
+		<string>https://consomac.fr/rss/consomac.xml</string>
+	</dict>
+	<dict>
+		<key>language</key>
+		<string>fr</string>
+		<key>name</key>
+		<string>iPhone Addict</string>
+		<key>id</key>
+		<string>iphoneaddict</string>
+		<key>url</key>
+		<string>https://feeds.feedburner.com/Iphoneaddictfr?format=xml</string>
+	</dict>
+	<dict>
+		<key>language</key>
+		<string>fr</string>
+		<key>name</key>
+		<string>Mac4Ever</string>
+		<key>id</key>
+		<string>mac4ever</string>
+		<key>url</key>
+		<string>https://www.mac4ever.com/rss/actu</string>
+	</dict>
+	<dict>
+		<key>language</key>
+		<string>fr</string>
+		<key>name</key>
+		<string>Macg</string>
+		<key>id</key>
+		<string>macg</string>
+		<key>url</key>
+		<string>https://megaflux.macg.co/</string>
+	</dict>
+	<dict>
+		<key>language</key>
+		<string>fr</string>
+		<key>name</key>
+		<string>CNET</string>
+		<key>id</key>
+		<string>cnet</string>
+		<key>url</key>
+		<string>https://www.cnetfrance.fr/feeds/rss/news/</string>
+	</dict>
+	<dict>
+		<key>language</key>
+		<string>fr</string>
+		<key>name</key>
+		<string>ZDNet Smartphones</string>
+		<key>id</key>
+		<string>zdnet_smartphones</string>
+		<key>url</key>
+		<string>https://www.zdnet.fr/feeds/rss/actualites/smartphone-4000002598q.htm</string>
+	</dict>
+	<dict>
+		<key>language</key>
+		<string>fr</string>
+		<key>name</key>
+		<string>PhonAndroid</string>
+		<key>id</key>
+		<string>phonandroid</string>
+		<key>url</key>
+		<string>https://www.phonandroid.com/feed</string>
+	</dict>
+</array>
+</plist>
