@@ -131,3 +131,6 @@ dmypy.json
 .idea
 input/
 output/
+ArticlePreprocessorTool/ArticlePreprocessor.xcodeproj/project.xcworkspace/xcuserdata
+xcuserdata/
+ArticlePreprocessorTool/TestRun/articles.json
