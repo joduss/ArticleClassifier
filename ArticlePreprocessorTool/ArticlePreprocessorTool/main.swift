@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import ZaJoLibrary
+import JoLibrary
 import ArticleClassifierCore
 
 var arguments = CommandLine.arguments

@@ -14,16 +14,16 @@
 		6BD0D13525A1FE4100A311AC /* ACLemmatizerV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD0D13025A1F79B00A311AC /* ACLemmatizerV2.swift */; };
 		6BD0D13925A1FE5C00A311AC /* ACStopWords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD0D13825A1FE5C00A311AC /* ACStopWords.swift */; };
 		6BD0D13D25A1FE6B00A311AC /* ACStopWordsFR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD0D13C25A1FE6B00A311AC /* ACStopWordsFR.swift */; };
+		6BE0986925A394E7000CD4A7 /* ArticleClassifierCore in Frameworks */ = {isa = PBXBuildFile; productRef = 6BE0986825A394E7000CD4A7 /* ArticleClassifierCore */; };
+		6BE0987725A395E0000CD4A7 /* ArticleClassifierCore in Frameworks */ = {isa = PBXBuildFile; productRef = 6BE0987625A395E0000CD4A7 /* ArticleClassifierCore */; };
+		6BE0988425A396BF000CD4A7 /* JoLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = 6BE0988325A396BF000CD4A7 /* JoLibrary */; };
 		6BFD30C725A20731009626E7 /* ArticlePreprocessorFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BFD30C525A20731009626E7 /* ArticlePreprocessorFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6BFD30D025A20741009626E7 /* ACStopWordsFR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD0D13C25A1FE6B00A311AC /* ACStopWordsFR.swift */; };
 		6BFD30D425A20742009626E7 /* ACStopWords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD0D13825A1FE5C00A311AC /* ACStopWords.swift */; };
 		6BFD30D825A20744009626E7 /* ACLemmatizerV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD0D13025A1F79B00A311AC /* ACLemmatizerV2.swift */; };
 		6BFD310325A20DA2009626E7 /* ACTextPreprocessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFD310225A20DA2009626E7 /* ACTextPreprocessor.swift */; };
 		6BFD310425A20DA2009626E7 /* ACTextPreprocessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFD310225A20DA2009626E7 /* ACTextPreprocessor.swift */; };
-		6BFD312025A2121A009626E7 /* ArticleClassifierCore in Frameworks */ = {isa = PBXBuildFile; productRef = 6BFD311F25A2121A009626E7 /* ArticleClassifierCore */; };
-		6BFD312225A2121E009626E7 /* ArticleClassifierCore in Frameworks */ = {isa = PBXBuildFile; productRef = 6BFD312125A2121E009626E7 /* ArticleClassifierCore */; };
 		6BFED5E4245DD7B100B83388 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFED5E3245DD7B100B83388 /* main.swift */; };
-		6BFED5F0245F000000B83388 /* ZaJoLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = 6BFED5EF245F000000B83388 /* ZaJoLibrary */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -46,7 +46,7 @@
 		6BD0D13025A1F79B00A311AC /* ACLemmatizerV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACLemmatizerV2.swift; sourceTree = "<group>"; };
 		6BD0D13825A1FE5C00A311AC /* ACStopWords.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACStopWords.swift; sourceTree = "<group>"; };
 		6BD0D13C25A1FE6B00A311AC /* ACStopWordsFR.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ACStopWordsFR.swift; path = ArticlePreprocessor/StopWords/ACStopWordsFR.swift; sourceTree = SOURCE_ROOT; };
-		6BE8B8E125A1079000369868 /* ArticleClassifierCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ArticleClassifierCore; path = ../../PommeNews/PommeNews/ArticleClassifierCore; sourceTree = "<group>"; };
+		6BE0986425A394D9000CD4A7 /* ArticleClassifierCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ArticleClassifierCore; path = ../ArticleClassifierCore; sourceTree = "<group>"; };
 		6BFD309B25A20577009626E7 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		6BFD30C325A20731009626E7 /* ArticlePreprocessorFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ArticlePreprocessorFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BFD30C525A20731009626E7 /* ArticlePreprocessorFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArticlePreprocessorFramework.h; sourceTree = "<group>"; };
@@ -69,7 +69,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BFD312225A2121E009626E7 /* ArticleClassifierCore in Frameworks */,
+				6BE0987725A395E0000CD4A7 /* ArticleClassifierCore in Frameworks */,
+				6BE0988425A396BF000CD4A7 /* JoLibrary in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,8 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BFED5F0245F000000B83388 /* ZaJoLibrary in Frameworks */,
-				6BFD312025A2121A009626E7 /* ArticleClassifierCore in Frameworks */,
+				6BE0986925A394E7000CD4A7 /* ArticleClassifierCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -165,7 +165,7 @@
 		6BFED5EC245F000000B83388 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6BE8B8E125A1079000369868 /* ArticleClassifierCore */,
+				6BE0986425A394D9000CD4A7 /* ArticleClassifierCore */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -219,7 +219,8 @@
 			);
 			name = ArticlePreprocessorFramework;
 			packageProductDependencies = (
-				6BFD312125A2121E009626E7 /* ArticleClassifierCore */,
+				6BE0987625A395E0000CD4A7 /* ArticleClassifierCore */,
+				6BE0988325A396BF000CD4A7 /* JoLibrary */,
 			);
 			productName = ArticlePreprocessorFramework;
 			productReference = 6BFD30C325A20731009626E7 /* ArticlePreprocessorFramework.framework */;
@@ -239,8 +240,7 @@
 			);
 			name = ArticlePreprocessor;
 			packageProductDependencies = (
-				6BFED5EF245F000000B83388 /* ZaJoLibrary */,
-				6BFD311F25A2121A009626E7 /* ArticleClassifierCore */,
+				6BE0986825A394E7000CD4A7 /* ArticleClassifierCore */,
 			);
 			productName = ArticlePreprocessorTool;
 			productReference = 6BFED5E0245DD7B100B83388 /* ArticlePreprocessor */;
@@ -276,6 +276,9 @@
 				Base,
 			);
 			mainGroup = 6BFED5D7245DD7B100B83388;
+			packageReferences = (
+				6BE0988225A396BF000CD4A7 /* XCRemoteSwiftPackageReference "JoLibrary" */,
+			);
 			productRefGroup = 6BFED5E1245DD7B100B83388 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -616,22 +619,34 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		6BE0988225A396BF000CD4A7 /* XCRemoteSwiftPackageReference "JoLibrary" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:joduss/JoLibrary.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		6B619B32247956E50003DD9B /* ZaJoLibrary */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ZaJoLibrary;
 		};
-		6BFD311F25A2121A009626E7 /* ArticleClassifierCore */ = {
+		6BE0986825A394E7000CD4A7 /* ArticleClassifierCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ArticleClassifierCore;
 		};
-		6BFD312125A2121E009626E7 /* ArticleClassifierCore */ = {
+		6BE0987625A395E0000CD4A7 /* ArticleClassifierCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ArticleClassifierCore;
 		};
-		6BFED5EF245F000000B83388 /* ZaJoLibrary */ = {
+		6BE0988325A396BF000CD4A7 /* JoLibrary */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = ZaJoLibrary;
+			package = 6BE0988225A396BF000CD4A7 /* XCRemoteSwiftPackageReference "JoLibrary" */;
+			productName = JoLibrary;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

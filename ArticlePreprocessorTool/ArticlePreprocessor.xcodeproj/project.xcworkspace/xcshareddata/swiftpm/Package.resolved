@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "JoLibrary",
+        "repositoryURL": "git@github.com:joduss/JoLibrary.git",
+        "state": {
+          "branch": "main",
+          "revision": "ae5a25c7c2b83846fbfc6dc6c8e0f3e729f05dc6",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
