@@ -39,8 +39,8 @@ from data_models.weights.theme_weights import ThemeWeights
 
 class IpadClassifierModel(IClassifierModel):
 
-    embedding_output_dim = 50
-    epochs = 250
+    embedding_output_dim = 72
+    epochs = 200
 
     # Model properties
     __model_name__ = "Model-5"
@@ -58,10 +58,13 @@ class IpadClassifierModel(IClassifierModel):
                     voc_size: int,
                     keras_callback: LambdaCallback):
 
-        conv_reg = 0#0.015
-        dense_reg = 0#0.015
-        dropout_conv = 0.1#0.2
-        dropout_dense = 0.1#0.2
+        conv_reg = 0.02#0.015
+        dense_reg = 0.02#0.015
+        dropout_conv = 0.20#0.2
+        dropout_dense = 0.20#0.2
+
+        conv_filters = 176
+        dense_after_conv: int = 128
 
         article_length = dataset.article_length
         theme_count = dataset.theme_count
@@ -74,42 +77,42 @@ class IpadClassifierModel(IClassifierModel):
 
         # Each convolution will have filter looking for some specific word combinations. For example a filter might
         # return a small value except for "apple iphone".
-        conv1 = keras.layers.Conv1D(filters=64, kernel_size=2, input_shape=(voc_size, self.embedding_output_dim),
+        conv1 = keras.layers.Conv1D(filters=conv_filters, kernel_size=2, input_shape=(voc_size, self.embedding_output_dim),
                                     activation=tf.nn.relu, kernel_regularizer=l2(l=conv_reg))(layer)
         conv1 = keras.layers.GlobalMaxPooling1D()(conv1)
-        conv1 = keras.layers.Dense(32, activation=tf.nn.relu)(conv1)
+        conv1 = keras.layers.Dense(dense_after_conv, activation=tf.nn.relu)(conv1)
         conv1 = Dropout(dropout_conv)(conv1)
 
-        conv2 = keras.layers.Conv1D(filters=64, kernel_size=3, input_shape=(voc_size, self.embedding_output_dim),
+        conv2 = keras.layers.Conv1D(filters=conv_filters, kernel_size=3, input_shape=(voc_size, self.embedding_output_dim),
                                     activation=tf.nn.relu, kernel_regularizer=l2(l=conv_reg))(layer)
         conv2 = keras.layers.GlobalMaxPooling1D()(conv2)
-        conv2 = keras.layers.Dense(32, activation=tf.nn.relu)(conv2)
+        conv2 = keras.layers.Dense(dense_after_conv, activation=tf.nn.relu)(conv2)
         conv2 = Dropout(dropout_conv)(conv2)
 
-        conv3 = keras.layers.Conv1D(filters=64, kernel_size=1, input_shape=(voc_size, self.embedding_output_dim),
+        conv3 = keras.layers.Conv1D(filters=conv_filters, kernel_size=1, input_shape=(voc_size, self.embedding_output_dim),
                                     activation=tf.nn.relu, kernel_regularizer=l2(l=conv_reg))(layer)
         conv3 = keras.layers.GlobalMaxPooling1D()(conv3)
-        conv3 = keras.layers.Dense(32, activation=tf.nn.relu)(conv3)
+        conv3 = keras.layers.Dense(dense_after_conv, activation=tf.nn.relu)(conv3)
         conv3 = Dropout(dropout_conv)(conv3)
 
-        conv4 = keras.layers.Conv1D(filters=40, kernel_size=5, input_shape=(voc_size, self.embedding_output_dim),
+        conv4 = keras.layers.Conv1D(filters=conv_filters, kernel_size=5, input_shape=(voc_size, self.embedding_output_dim),
                                     activation=tf.nn.relu, kernel_regularizer=l2(l=conv_reg))(layer)
         conv4 = keras.layers.GlobalMaxPooling1D()(conv4)
-        conv4 = keras.layers.Dense(20, activation=tf.nn.relu)(conv4)
+        conv4 = keras.layers.Dense(dense_after_conv, activation=tf.nn.relu)(conv4)
         conv4 = Dropout(dropout_conv)(conv4)
 
         layer = keras.layers.Concatenate()([conv1, conv2, conv3, conv4])
-        layer = keras.layers.Dense(32, activation=tf.nn.relu, kernel_regularizer=l2(l=conv_reg))(layer)
+        layer = keras.layers.Dense(dense_after_conv*2, activation=tf.nn.relu, kernel_regularizer=l2(l=conv_reg))(layer)
         layer = keras.layers.Dropout(dropout_dense)(layer)
-        # layer = keras.layers.Dense(64, activation=tf.nn.relu, kernel_regularizer=l2(l=conv_reg))(layer)
-        # layer = keras.layers.Dropout(dropout_dense)(layer)
+        layer = keras.layers.Dense(dense_after_conv/2, activation=tf.nn.relu, kernel_regularizer=l2(l=conv_reg))(layer)
+        layer = keras.layers.Dropout(dropout_dense)(layer)
 
         layer = keras.layers.Dense(theme_count, activation=tf.nn.sigmoid, kernel_regularizer=l2(l=dense_reg))(layer)
 
         model = keras.Model(inputs=input, outputs=layer)
 
 
-        model.compile(optimizer=tf.keras.optimizers.Adam(clipnorm=1, learning_rate=0.00009),
+        model.compile(optimizer=tf.keras.optimizers.Adam(clipnorm=1, learning_rate=0.00003),
                       loss=WeightedBinaryCrossEntropy(themes_weight.weight_array()),
                       metrics=[AUC(multi_label=True), BinaryAccuracy(), TruePositives(),
                          TrueNegatives(), FalseNegatives(), FalsePositives(),
