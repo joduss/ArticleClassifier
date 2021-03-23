@@ -38,6 +38,8 @@ public class ACLemmatizerV2: ACLemmatizer {
     ///   - removeStopWords: Boolean indicating if stop-words should be removed.
     /// - Returns: Lemmatized text.
     public func lemmatize(text: String) -> String {
+        
+        let lowercasedText = text.lowercased()
                 
         // For the processing
         let tagger = NLTagger(tagSchemes: [.lemma, .nameTypeOrLexicalClass])
@@ -49,13 +51,13 @@ public class ACLemmatizerV2: ACLemmatizer {
         var wordsStep1 = ContiguousArray<String>()
         wordsStep1.reserveCapacity(text.count / 5)
         
-        tagger.string = text
-
-        tagger.enumerateTags(in: text.startIndex..<text.endIndex, unit: .word, scheme: .nameTypeOrLexicalClass, options: [.omitWhitespace, .omitPunctuation, .joinNames, .omitOther], using: {
+        tagger.string = lowercasedText
+        
+        tagger.enumerateTags(in: lowercasedText.startIndex..<lowercasedText.endIndex, unit: .word, scheme: .nameTypeOrLexicalClass, options: [.omitWhitespace, .omitPunctuation, .joinNames, .omitOther], using: {
             tag, range in
             
-//            let term = String(text[range])
-            //print("\(term) => \(tag?.rawValue ?? "?")")
+//            let term = String(lowercasedText[range])
+//            print("\(term) => \(tag?.rawValue ?? "?")")
                         
             switch (tag) {
             case NLTag.preposition:
@@ -67,12 +69,20 @@ public class ACLemmatizerV2: ACLemmatizer {
             case NLTag.determiner:
                 return true
             default:
-                wordsStep1.append(String(text[range]))
                 break
             }
             
+            let word = String(lowercasedText[range])
+            
+            guard stopWords.IsStopWord(word: word) == false else {
+                return true
+            }
+            
+            wordsStep1.append(word)
+            
             return true
         })
+        
         
         let processedTextStep1 = wordsStep1.joined(separator: " ")
         
@@ -81,7 +91,7 @@ public class ACLemmatizerV2: ACLemmatizer {
         // To be returned
         var words = ContiguousArray<String>()
         words.reserveCapacity(processedTextStep1.count)
-                
+
         tagger.string = processedTextStep1
         tagger.enumerateTags(in: processedTextStep1.startIndex..<processedTextStep1.endIndex, unit: .word, scheme: .lemma, options: [.omitWhitespace, .joinNames], using: {
             tag, range in
@@ -91,10 +101,10 @@ public class ACLemmatizerV2: ACLemmatizer {
                 return true
             }
             
-            guard stopWords.IsStopWord(word: lemmatizedWord) == false else {
-                return true
-            }
-
+//            guard stopWords.IsStopWord(word: lemmatizedWord) == false else {
+//                return true
+//            }
+            
             words.append(lemmatizedWord)
             return true
         })
@@ -129,7 +139,9 @@ public class ACLemmatizerV2: ACLemmatizer {
             "iphoneV": iPhoneVersions(),
             "ipadV" : iPadVersions(),
             "iosV" : iOSVersions(),
-            "produits": ["les produits", "le produit", "un produit", "des produits"]
+            "produits": ["les produits", "le produit", "un produit", "des produits"],
+            // Here some fixes for the lemmatizer
+            "souris" : ["souris"] // Otherwise it uses the verb "sourire". That word is not really a matter for us.
         ]
         
         return try! NLGazetteer(dictionary: gazets, language: language)
@@ -151,7 +163,7 @@ public class ACLemmatizerV2: ACLemmatizer {
     }
     
     private func iPadVersions() -> [String] {
-        var versions = ["3", "4", "v2", "v3", "v1", "(troisième génération)", "(deuxième génération)", "(première génération)", "(3e génération)", "(2e génération)", "(2nd génération)", "10,2", "10,8", "12,9", "3e génération", "4e génération", "5e génération", "6e génération", "7e génération", "8e génération", "9e génération", "10e génération"]
+        var versions = ["3", "4", "v2", "v3", "v1", "(troisième génération)", "(deuxième génération)", "(première génération)", "(3e génération)", "(2e génération)", "(2nd génération)", "10,2", "10,5", "10,8", "12,9", "3e génération", "4e génération", "5e génération", "6e génération", "7e génération", "8e génération", "9e génération", "10e génération"]
         versions += (2017...2025).map({$0.description})
         
         
