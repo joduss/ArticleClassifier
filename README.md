@@ -42,6 +42,11 @@ Initially, I chose to classify anything that might be related to iPhone as being
 On the road I gradually changed my mind, thinking that first, to classify all those theme accurately, I would need much more data. Combining themes to build super-themes, also amplifies misclassifications... I therefore though to classify more precisely, but it is still not so easy. It would lead to even more imbalanced data.
 In total, I classified about 3000 to 4000 thousands articles
 
+##### Manually classification - ML assisted
+
+Manual classification is hard and takes enormous amount of time. To ease the process I trained the classifier with limited tagged data, I then used the classifier on unseed and yet tagged articles and finally approved or disapproved the predicted themes. For the approval, I wrote an utility showing articles with a specific unverified predicted themes. This allowed to speed-up the manual classification.
+
+That utility is only showing articles for which a specific theme is predicted, while others are not. As long as the accuracy is above 50%, this means the number of articles of that specific theme being verified outnumbered those which are not of that theme. This process was slightly **re-balancing** the data.
 
 ##### Training
 
